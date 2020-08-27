@@ -27,10 +27,10 @@ namespace NStringTool
     bool Strcmpx(const char* s1, const char* s2);
     std::string Shorten(const std::string& InString, const std::string Punkte, int Limit);
     std::string ShortenUtf8(const std::string& Utf8String, const std::string Punkte, int Limit);
-    void RemoveUmlaut(char* c1, bool ToUpper);
     std::string Last(const std::string& InStr, unsigned int n);
     std::string First(const std::string& InStr, unsigned int n);
     std::string RemoveBlanks(std::string& InputString);
+    std::string Mask(const std::string& inStr, const std::string& maskChars);
 
     void Trim(stringvector& sv, const char* trimChars);
     void TrimValid(stringvector& sv, const char* validChars);

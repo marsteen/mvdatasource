@@ -115,9 +115,10 @@ int main(int argc, char* argv[])
                         while (NotEndOfFile)
                         {
                             NotEndOfFile = fio.ReadLine(&s);
+                            std::string MaskedLine = NStringTool::Mask(s, "\"");
 
                             fstr << '\n';
-                            fstr << '"' << s << "\\n" << '"';
+                            fstr << '"' << MaskedLine << "\\n" << '"';
                         }
 
                         fstr << ";" << endl;

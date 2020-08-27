@@ -156,6 +156,27 @@ namespace NStringTool
         return r;
     }
 
+//---------------------------------------------------------------------------
+//
+// Namespace:  NStringTool
+// Methode:    Mask
+//
+//---------------------------------------------------------------------------
+    
+    std::string Mask(const std::string& inStr, const std::string& maskChars)
+    {
+        std::string resultStr;
+        for (int i = 0; i < inStr.size(); i++)
+        {
+            if (maskChars.find(inStr[i]) != std::string::npos)
+            {
+                resultStr += '\\';
+            }
+            resultStr += inStr[i];
+        }
+        return resultStr;
+    }
+
 
 //---------------------------------------------------------------------------
 //
@@ -291,247 +312,6 @@ namespace NStringTool
             }
         }while (!EndLine);
         return true;
-    }
-
-
-//---------------------------------------------------------------------------
-//
-// Namespace:  NStringTool
-// Methode:
-//
-//---------------------------------------------------------------------------
-
-    std::string FilterUmlaut(const std::string& InStr)
-    {
-        std::string OutStr;
-
-        for (int i = 0; i < InStr.size(); i++)
-        {
-            char c = InStr[i];
-
-            switch (c)
-            {
-                case 'Ä':
-                    OutStr += "Ae";
-                    break;
-
-                case 'Ö':
-                    OutStr += "Oe";
-                    break;
-
-                case 'Ü':
-                    OutStr += "Ue";
-                    break;
-
-                case 'ä':
-                    OutStr += "ae";
-                    break;
-
-                case 'ö':
-                    OutStr += "Oe";
-                    break;
-
-                case 'ü':
-                    OutStr += "Ue";
-                    break;
-
-#if 0
-                case 'À':
-                case 'Á':
-                case 'Â':
-                case 'Ã':
-                case 'Ae':
-                case 'Å':
-                case 'à':
-                case 'á':
-                case 'â':
-                case 'ã':
-                case 'ae':
-                case 'å':
-                case 'æ':
-
-                    OutStr += "A";
-                    break;
-
-                case 'è':
-                case 'é':
-                case 'ê':
-                case 'ë':
-                case 'È':
-                case 'É':
-                case 'Ê':
-                case 'Ë':
-
-                    OutStr += "E";
-                    break;
-
-                case 'ç':
-
-                    OutStr += "C";
-                    break;
-
-                case 'ò':
-                case 'ó':
-                case 'ô':
-                case 'õ':
-                case 'oe':
-
-                    OutStr += "O";
-                    break;
-#endif
-
-
-                default:
-                    OutStr += c;
-                    break;
-            }
-        }
-        return OutStr;
-    }
-
-
-//---------------------------------------------------------------------------
-//
-// Namespace:  NStringTool
-// Methode:	     RemoveUmlaut
-//
-//---------------------------------------------------------------------------
-
-
-    void RemoveUmlaut(char* c1, bool ToUpper)
-    {
-        if (ToUpper)
-        {
-            switch (*c1)
-            {
-                case 'Ä':
-                    *c1 = 'A';
-                    break;
-
-                case 'Ö':
-                    *c1 = 'O';
-                    break;
-
-                case 'Ü':
-                    *c1 = 'U';
-                    break;
-
-                case 'ä':
-                    *c1 = 'A';
-                    break;
-
-                case 'ö':
-                    *c1 = 'O';
-                    break;
-
-                case 'ü':
-                    *c1 = 'U';
-                    break;
-
-                default:
-                    *c1 = toupper(*c1);
-                    break;
-            }
-        }
-        else
-        {
-            switch (*c1)
-            {
-                case 'Ä':
-                    *c1 = 'A';
-                    break;
-
-                case 'Ö':
-                    *c1 = 'O';
-                    break;
-
-                case 'Ü':
-                    *c1 = 'U';
-                    break;
-
-                case 'ä':
-                    *c1 = 'a';
-                    break;
-
-                case 'ö':
-                    *c1 = 'o';
-                    break;
-
-                case 'ü':
-                    *c1 = 'u';
-                    break;
-            }
-        }
-    }
-
-
-//---------------------------------------------------------------------------
-//
-// Namespace:  NStringTool
-// Methode:		 CompareStrings
-//
-// IgnoreCase = true  : Gross/Kleinschreibung ignorieren
-// IgnoreCase = false : Gross/Kleinschreibung beruecksichtigen
-//
-// Rueckgabe: Es wird "true" zurueckgegeben, wenn str1 kleiner als str2 ist.
-//            Sonst "false".
-//
-//
-//---------------------------------------------------------------------------
-
-
-    bool CompareStrings(const std::string& str1, const std::string& str2, bool IgnoreCase)
-    {
-        bool EndString = false;
-        bool r = false;
-        int i = 0;
-
-        const char* cstr1 = str1.c_str();
-        const char* cstr2 = str2.c_str();
-
-        do
-        {
-            char c1 = cstr1[i];
-            char c2 = cstr2[i];
-
-            i++;
-
-            if ((c1 == 0) && (c2 == 0))
-            {
-                EndString = true;
-                r = true; // gleich
-            }
-            else
-            {
-                if (c1 == 0)
-                {
-                    EndString = true;
-                }
-                if (c2 == 0)
-                {
-                    EndString = true;
-                    r = true;
-                }
-            }
-
-            if (!EndString)
-            {
-                RemoveUmlaut(&c1, IgnoreCase);
-                RemoveUmlaut(&c2, IgnoreCase);
-
-                if (c1 < c2)
-                {
-                    r = true;
-                    EndString = true;
-                }
-                if (c1 > c2)
-                {
-                    EndString = true;
-                }
-            }
-        }while (!EndString);
-
-        return r;
     }
 
 
@@ -738,49 +518,6 @@ namespace NStringTool
     }
 
 
-/*
- *  //---------------------------------------------------------------------------
- *  //
- *  // Namespace: NStringTool
- *  // Methode:		Strcmpx
- *  //
- *  // Vergleich zweier Strings ohne Beruecksichtigung der Gross/Klein-
- *  // schreibung
- *  //
- *  // Return: wie strcmp (0: Strings sind gleich)
- *  //
- *  //---------------------------------------------------------------------------
- *
- *  int Strcmpx(const char* s1, const char* s2)
- *  {
- *      if ((s1 == NULL) || (s2 == NULL))
- *      {
- *          return false;
- *      }
- *
- *      char* bstr1 = new char[strlen(s1) + 1];
- *      char* bstr2 = new char[strlen(s2) + 1];
- *
- *      strcpy(bstr1, s1);
- *      strcpy(bstr2, s2);
- *
- *      for (char* c1 = bstr1; *c1 != 0; c1++)
- *      {
- * c1 = toupper(*c1);
- *      }
- *      for (char* c1 = bstr2; *c1 != 0; c1++)
- *      {
- * c1 = toupper(*c1);
- *      }
- *
- *      int s = strcmp(bstr1, bstr2);
- *
- *      delete bstr2;
- *      delete bstr1;
- *
- *      return s;
- *  }
- */
 
 
 //
